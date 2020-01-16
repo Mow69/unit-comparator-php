@@ -2,19 +2,21 @@
 
 namespace App\Controller;
 
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class IndexController extends AbstractController
 {
     /**
      * @Route("/index", name="index")
+     * UserStory 1 : m² to hectare
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/IndexController.php',
-        ]);
+        $get = $request->query->get('squaremeter');
+        return new Response($get/10000);
     }
 }
