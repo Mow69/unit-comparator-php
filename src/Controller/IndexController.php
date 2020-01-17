@@ -25,6 +25,13 @@ class IndexController extends AbstractController
                         return new JsonResponse("Erreur : Valeur invalide");
                     }
                     break;
+                case "kwToKgCo2" :
+                    if ($aConvertir >= 0) {
+                        return new JsonResponse($aConvertir * 0.09);
+                    } else {
+                        return new JsonResponse("Erreur : Valeur invalide");
+                    }
+                    break;
                 default:
                     return new JsonResponse("Parametre(s) requete http incorrect(s)");
             }
