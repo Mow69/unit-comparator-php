@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class IndexController extends AbstractController
 {
     /**
-     * @Route("/index", name="index", methods={"POST"})
+     * @Route("/index", name="index" methods={"POST"})
      * UserStory 1 : m² to hectare
      */
     public function index(Request $request)
