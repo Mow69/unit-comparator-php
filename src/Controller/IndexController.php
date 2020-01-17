@@ -14,7 +14,7 @@ class IndexController extends AbstractController
      * @Route("/index", name="index" methods={"POST"})
      * UserStory 1 : m² to hectare
      */
-    public function m2ToHectare(Request $request)
+    public function index(Request $request)
     {
         $aConvertir = $_POST['squaremeter'] ;
         if (isset($aConvertir)){
