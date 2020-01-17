@@ -4,19 +4,25 @@ namespace App\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
 
 class IndexController extends AbstractController
 {
     /**
-     * @Route("/index", name="index")
+     * @Route("/index", name="index", methods={"POST"})
      * UserStory 1 : m² to hectare
      */
     public function index(Request $request)
     {
-        $get = $request->query->get('squaremeter');
-        return new Response($get/10000);
+        $aConvertir = $_POST['squaremeter'] ;
+        if (isset($aConvertir)){
+            if ($aConvertir >= 0) {
+                return new JsonResponse($aConvertir / 10000);
+            } else {
+                return new JsonResponse("Valeur invalide");
+            }
+        }
     }
 }
