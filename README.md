@@ -4,5 +4,8 @@
 - `composer install`
 - Pour lancer le serveur :  `php bin/console server:run`
 
-# User story 1 : 
-En tant qu'utilisateur je veux pouvoir convertir des m² en hectares afin de pouvoir comparer deux unités différentes.
+# User story 
+La descriptions des besoins est effectué via les Issues de ce repository GitHub
+
+# Front End
+Un Front par defaut est proposé ici : https://github.com/Safiamoon/unit-comparator-front
