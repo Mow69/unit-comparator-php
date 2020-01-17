@@ -14,7 +14,7 @@ class IndexController extends AbstractController
      * @Route("/index", name="index")
      * UserStory 1 : m² to hectare
      */
-    public function index(Request $request)
+    public function m2ToHectare(Request $request)
     {
         $get = $request->query->get('squaremeter');
         return new Response($get/10000);
