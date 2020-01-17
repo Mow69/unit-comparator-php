@@ -16,13 +16,20 @@ class IndexController extends AbstractController
      */
     public function index(Request $request)
     {
-        $aConvertir = $_POST['squaremeter'] ;
-        if (isset($aConvertir)){
-            if ($aConvertir >= 0) {
-                return new JsonResponse($aConvertir / 10000);
-            } else {
-                return new JsonResponse("Valeur invalide");
+        if (($aConvertir = $request->request->get('aConvertir')) && ($typeConvertion = $request->request->get('typeConvertion'))){
+            switch ($typeConvertion) {
+                case "squareMeterToHectare" :
+                    if ($aConvertir >= 0) {
+                        return new JsonResponse($aConvertir / 10000);
+                    } else {
+                        return new JsonResponse("Erreur : Valeur invalide");
+                    }
+                    break;
+                default:
+                    return new JsonResponse("Parametre(s) requete http incorrect(s)");
             }
+        } else {
+            return new JsonResponse("Parametre(s) requete http incorrect(s)");
         }
     }
 }
