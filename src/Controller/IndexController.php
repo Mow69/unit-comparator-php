@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 
+use App\ClassFilterUnits;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use JMS\Serializer\Serializer;
 
 class IndexController extends AbstractController
 {
@@ -36,16 +40,32 @@ class IndexController extends AbstractController
     /**
      * @Route("/filterunits", name="filterunits", methods={"POST"})
      * UserStory 1 : m² to hectare
-     * @param Request $request
      * @return JsonResponse
      */
-    public function filterunits(Request $request){
-        $myConvertions = array(
-            array('m2', 'hectare'),
-            array('kW','kgCo2')
-            );
-        return new JsonResponse($myConvertions);
+    public function filterunits(){
+        $myObject = new ClassFilterUnits();
+        return new JsonResponse($myObject);
     }
 }
+
+
+
+
+//    }
+//{        return new JsonResponse(
+//$serializer->serialize(
+//[
+//'result' => $toReturn
+//],
+//'json'
+//),
+//Response::HTTP_OK
+//);
+//
+//}
+
+
+
+
 
 
