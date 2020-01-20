@@ -12,12 +12,15 @@ Un Front par defaut est proposé ici : https://github.com/Safiamoon/unit-compara
 
 # API
 Nom des attibuts des requetes POST
-- ### aConvertir :
+- ### valueToConvert :
 > Le nombre ou la donnée à convertir
-- ### typeConvertion :
->Definie le type de convertion désiré.
->
- Valeur possibles :
+- ### inUnit:
+> L'unité de conversion d'entrée
+- ### outUnit:
+ > L'unité de conversion de sortie
+ >
+ Valeurs possibles :
 >squareMeterToHectare : Convertion de m² à hectare
 >
 >kwToKgCo2 : Convertion de Kw/h en Kg de Co2
+>
