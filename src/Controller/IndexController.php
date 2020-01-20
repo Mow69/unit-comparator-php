@@ -22,17 +22,13 @@ class IndexController extends AbstractController
             $decode = json_decode($content, true);
             if ($decode['inUnit'] == 'm2' && $decode['outUnit'] == 'hectare') {
                 $toReturn = $decode ['valueToConvert'] / 10000;
-                return new JsonResponse($toReturn);
+                return new JsonResponse(array('result' => $toReturn));
             }
             if ($decode ['inUnit'] == 'kW' && $decode['outUnit'] == 'kgCo2') {
                 $toReturn = $decode ['valueToConvert'] * 0.09;
-                return new JsonResponse($toReturn);
+                return new JsonResponse(array('result' => $toReturn));
             }
-
-
         }
-
-
     }
 }
 
