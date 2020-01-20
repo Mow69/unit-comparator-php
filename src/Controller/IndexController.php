@@ -11,25 +11,35 @@ use Symfony\Component\Routing\Annotation\Route;
 class IndexController extends AbstractController
 {
     /**
-     * @Route("/index", name="index", methods={"POST"})
+     * @Route("/convert", name="index", methods={"POST"})
      * UserStory 1 : m² to hectare
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Exception
      */
     public function index(Request $request)
     {
-        if (($aConvertir = $request->request->get('aConvertir')) && ($typeConvertion = $request->request->get('typeConvertion'))){
-            switch ($typeConvertion) {
-                case "squareMeterToHectare" :
-                    if ($aConvertir >= 0) {
-                        return new JsonResponse($aConvertir / 10000);
-                    } else {
-                        return new JsonResponse("Erreur : Valeur invalide");
-                    }
-                    break;
-                default:
-                    return new JsonResponse("Parametre(s) requete http incorrect(s)");
+        try {
+            $content = $request->getContent();
+
+            if ($content) {
+                $decode = json_decode($content, true);
+                if ($decode['valueToConvert'] && gmp_sign($decode['valueToConvert']) === 1) {
+                    $toReturn = $decode ['valueToConvert'] / 10000;
+                    return new JsonResponse(array('result' => $toReturn));
+
+                } else if(!$decode['valueToConvert']){
+                    return new JsonResponse("valueToConvert is not defined.");
+
+                } else if(gmp_sign($decode['valueToConvert']) === 1){
+                    return new JsonResponse("Impossible to convert a negative number.");
+                }
             }
-        } else {
-            return new JsonResponse("Parametre(s) requete http incorrect(s)");
+
+            return new JsonResponse("Error with the request. $content = ". $content);
+
+        } catch (\Exception $ex) {
+            throw $ex;
         }
     }
 }
