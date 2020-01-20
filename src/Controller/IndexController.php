@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\ClassFilterUnits;
+use App\JSONToReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,13 +24,13 @@ class IndexController extends AbstractController
             $decode = json_decode($content, true);
             if ($decode['inUnit'] == 'm2' && $decode['outUnit'] == 'hectare') {
                 $toReturn = $decode ['valueToConvert'] / 10000;
-                $toReturn = array('result' => $toReturn);
-                return new JsonResponse($toReturn);
             }
             if ($decode ['inUnit'] == 'kW' && $decode['outUnit'] == 'kgCo2') {
                 $toReturn = $decode ['valueToConvert'] * 0.09;
-                $toReturn = array('result' => $toReturn);
-                return new JsonResponse($toReturn);
+            }
+            if (isset($toReturn)){
+                $myObject = new JSONToReturn(['convertedValue' => $toReturn]);
+                return new JsonResponse($myObject);
             }
         }
     }
@@ -40,7 +41,7 @@ class IndexController extends AbstractController
      * @return JsonResponse
      */
     public function filterunits(){
-        $myObject = new ClassFilterUnits();
+        $myObject = new JSONToReturn([['inUnit'=>'m2', 'outUnit'=>'hectare'], ['inUnit'=>'kW', 'outUnit'=>'kgCo2']]);
         return new JsonResponse($myObject);
     }
 }
