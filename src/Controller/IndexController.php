@@ -31,7 +31,7 @@ class IndexController extends AbstractController
                 } else if(!$decode['valueToConvert']){
                     return new JsonResponse("valueToConvert is not defined.");
 
-                } else if(gmp_sign($decode['valueToConvert']) === 1){
+                } else if(gmp_sign($decode['valueToConvert']) === -1){
                     return new JsonResponse("Impossible to convert a negative number.");
                 }
             }
