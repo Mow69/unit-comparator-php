@@ -13,30 +13,27 @@ class IndexController extends AbstractController
     /**
      * @Route("/index", name="index", methods={"POST"})
      * UserStory 1 : m² to hectare
+     * @param Request $request
+     * @return JsonResponse
      */
     public function index(Request $request)
     {
-        if (($aConvertir = $request->request->get('aConvertir')) && ($typeConvertion = $request->request->get('typeConvertion'))){
-            switch ($typeConvertion) {
-                case "squareMeterToHectare" :
-                    if ($aConvertir >= 0) {
-                        return new JsonResponse($aConvertir / 10000);
-                    } else {
-                        return new JsonResponse("Erreur : Valeur invalide");
-                    }
-                    break;
-                case "kwToKgCo2" :
-                    if ($aConvertir >= 0) {
-                        return new JsonResponse($aConvertir * 0.09);
-                    } else {
-                        return new JsonResponse("Erreur : Valeur invalide");
-                    }
-                    break;
-                default:
-                    return new JsonResponse("Parametre(s) requete http incorrect(s)");
+        if ($content = $request->getContent()) {
+            $decode = json_decode($content, true);
+            if ($decode['inUnit'] == 'm2' && $decode['outUnit'] == 'hectare') {
+                $toReturn = $decode ['valueToConvert'] / 10000;
+                return new JsonResponse($toReturn);
             }
-        } else {
-            return new JsonResponse("Parametre(s) requete http incorrect(s)");
+            if ($decode ['inUnit'] == 'kW' && $decode['outUnit'] == 'kgCo2') {
+                $toReturn = $decode ['valueToConvert'] * 0.09;
+                return new JsonResponse($toReturn);
+            }
+
+
         }
+
+
     }
 }
+
+
