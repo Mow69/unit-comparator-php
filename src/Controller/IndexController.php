@@ -11,24 +11,40 @@ use Symfony\Component\Routing\Annotation\Route;
 class IndexController extends AbstractController
 {
     /**
-     * @Route("/index", name="index", methods={"POST"})
+     * @Route("/convert", name="convert", methods={"POST"})
      * UserStory 1 : m² to hectare
      * @param Request $request
      * @return JsonResponse
      */
-    public function index(Request $request)
+    public function convert(Request $request)
     {
         if ($content = $request->getContent()) {
             $decode = json_decode($content, true);
             if ($decode['inUnit'] == 'm2' && $decode['outUnit'] == 'hectare') {
                 $toReturn = $decode ['valueToConvert'] / 10000;
-                return new JsonResponse(array('result' => $toReturn));
+                $toReturn = array('result' => $toReturn);
+                return new JsonResponse($toReturn);
             }
             if ($decode ['inUnit'] == 'kW' && $decode['outUnit'] == 'kgCo2') {
                 $toReturn = $decode ['valueToConvert'] * 0.09;
-                return new JsonResponse(array('result' => $toReturn));
+                $toReturn = array('result' => $toReturn);
+                return new JsonResponse($toReturn);
             }
         }
+    }
+
+    /**
+     * @Route("/filterunits", name="filterunits", methods={"POST"})
+     * UserStory 1 : m² to hectare
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function filterunits(Request $request){
+        $myConvertions = array(
+            array('m2', 'hectare'),
+            array('kW','kgCo2')
+            );
+        return new JsonResponse($myConvertions);
     }
 }
 
