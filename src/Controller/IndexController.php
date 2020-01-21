@@ -23,14 +23,24 @@ class IndexController extends AbstractController
         if ($content = $request->getContent()) {
             $decode = json_decode($content, true);
             if ($decode['inUnit'] == 'm2' && $decode['outUnit'] == 'hectare') {
-                $toReturn = $decode ['valueToConvert'] / 10000;
+                if (isset($decode ['valueToConvert'])) {
+                    $toReturn = $decode ['valueToConvert'] / 10000;
+                }
+                else {
+                    $myObject = new JSONToReturn(["message" => "Please enter a value to convert"]);
+                    return new JsonResponse($myObject, 400);
+                }
             }
             if ($decode ['inUnit'] == 'kW' && $decode['outUnit'] == 'kgCo2') {
                 $toReturn = $decode ['valueToConvert'] * 0.09;
             }
-            if (isset($toReturn)){
+            if (isset($toReturn)) {
                 $myObject = new JSONToReturn(['convertedValue' => $toReturn]);
                 return new JsonResponse($myObject);
+            }
+            else {
+                $myObject = new JSONToReturn(["message" => "Please enter a value to convert"]);
+                return new JsonResponse($myObject, 400);
             }
         }
     }
