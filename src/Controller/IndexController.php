@@ -9,10 +9,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use function App\Service\ifNotExist;
+use function App\Service\kwToCo2;
+use function App\Service\m2toHectare;
+
 
 class IndexController extends AbstractController
 {
+    const ERROR_CODE = 400;
     /**
      * @Route("/convert", name="convert", methods={"POST"})
      * UserStory 1 : m² to hectare
@@ -32,9 +35,9 @@ class IndexController extends AbstractController
                         !is_numeric($decode ['valueToConvert']) ||
                         $decode['valueToConvert'] < 0) {
                         $myObject->result = ["message" => "valueToConvert incorrect"];
-                        return new JsonResponse($myObject, 400);
+                        return new JsonResponse($myObject, self::ERROR_CODE);
                     } else {
-                        $toReturn = $decode ['valueToConvert'] / 10000;
+                        $toReturn =m2toHectare($decode['valueToConvert']);
                     }
                 }
 
@@ -44,21 +47,21 @@ class IndexController extends AbstractController
                         !is_numeric($decode ['valueToConvert']) ||
                         $decode['valueToConvert'] < 0) {
                         $myObject->result = ["message" => "valueToConvert incorrect"];
-                        return new JsonResponse($myObject, 400);
+                        return new JsonResponse($myObject, self::ERROR_CODE);
                     } else {
-                        $toReturn = $decode ['valueToConvert'] * 0.09;
+                        $toReturn =kwToCo2($decode['valueToConvert']);
                     }
                 }
             } else {
                 $myObject->result = ["message" => " sent inUnit or/and outUnit not found"];
-                return new JsonResponse($myObject, 400);
+                return new JsonResponse($myObject, self::ERROR_CODE);
             }
             if (isset($toReturn)) {
                 $myObject->result = ['convertedValue' => $toReturn];
                 return new JsonResponse($myObject);
             }
 
-            return new JsonResponse($myObject, 400);
+            return new JsonResponse($myObject, self::ERROR_CODE);
         }
     }
 
@@ -67,8 +70,7 @@ class IndexController extends AbstractController
      * UserStory 1 : m² to hectare
      * @return JsonResponse
      */
-    public
-    function filterunits()
+    public function filterunits()
     {
         $myObject = new JSONToReturn([['inUnit' => 'm2', 'outUnit' => 'hectare'], ['inUnit' => 'kW', 'outUnit' => 'kgCo2']]);
         return new JsonResponse($myObject);
