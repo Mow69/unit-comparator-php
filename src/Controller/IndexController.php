@@ -90,7 +90,7 @@ class IndexController extends AbstractController
 }
 
 /**
- * @Route("/filterunits", name="filterunits", methods={"POST"})
+ * @Route("/filterunits", name="filterunits", methods={"GET"})
  * UserStory 1 : m² to hectare
  * @return JsonResponse
  */
