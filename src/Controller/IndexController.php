@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use function App\Service\ifNotExist;
 
 class IndexController extends AbstractController
 {
@@ -20,34 +21,44 @@ class IndexController extends AbstractController
      */
     public function convert(Request $request)
     {
+        $myObject = new JSONToReturn("Unknown error");
         if ($content = $request->getContent()) {
             $decode = json_decode($content, true);
-            if ($decode['inUnit'] == 'm2' && $decode['outUnit'] == 'hectare') {
-                if (isset($decode ['valueToConvert'])) {
-                    $toReturn = $decode ['valueToConvert'] / 10000;
+            if (isset($decode['inUnit']) && isset($decode['outUnit'])) {
+
+                if ($decode['inUnit'] == 'm2' && $decode['outUnit'] == 'hectare') {
+
+                    if (!isset($decode ['valueToConvert']) ||
+                        !is_numeric($decode ['valueToConvert']) ||
+                        $decode['valueToConvert'] < 0) {
+                        $myObject->result = ["message" => "valueToConvert incorrect"];
+                        return new JsonResponse($myObject, 400);
+                    } else {
+                        $toReturn = $decode ['valueToConvert'] / 10000;
+                    }
                 }
-                else {
-                    $myObject = new JSONToReturn(["message" => "Please enter a value to convert"]);
-                    return new JsonResponse($myObject, 400);
+
+                if ($decode ['inUnit'] == 'kW' && $decode['outUnit'] == 'kgCo2') {
+
+                    if (!isset($decode ['valueToConvert']) ||
+                        !is_numeric($decode ['valueToConvert']) ||
+                        $decode['valueToConvert'] < 0) {
+                        $myObject->result = ["message" => "valueToConvert incorrect"];
+                        return new JsonResponse($myObject, 400);
+                    } else {
+                        $toReturn = $decode ['valueToConvert'] * 0.09;
+                    }
                 }
-            }
-            if ($decode ['inUnit'] == 'kW' && $decode['outUnit'] == 'kgCo2') {
-                if (isset($decode ['valueToConvert'])) {
-                $toReturn = $decode ['valueToConvert'] * 0.09;
-                }
-                else {
-                    $myObject = new JSONToReturn(["message" => "Please enter a value to convert"]);
-                    return new JsonResponse($myObject, 400);
-                }
-            }
-            if (isset($toReturn)) {
-                $myObject = new JSONToReturn(['convertedValue' => $toReturn]);
-                return new JsonResponse($myObject);
-            }
-            else {
-                $myObject = new JSONToReturn(["message" => "Please enter a value to convert"]);
+            } else {
+                $myObject->result = ["message" => " sent inUnit or/and outUnit not found"];
                 return new JsonResponse($myObject, 400);
             }
+            if (isset($toReturn)) {
+                $myObject->result = ['convertedValue' => $toReturn];
+                return new JsonResponse($myObject);
+            }
+
+            return new JsonResponse($myObject, 400);
         }
     }
 
@@ -56,8 +67,10 @@ class IndexController extends AbstractController
      * UserStory 1 : m² to hectare
      * @return JsonResponse
      */
-    public function filterunits(){
-        $myObject = new JSONToReturn([['inUnit'=>'m2', 'outUnit'=>'hectare'], ['inUnit'=>'kW', 'outUnit'=>'kgCo2']]);
+    public
+    function filterunits()
+    {
+        $myObject = new JSONToReturn([['inUnit' => 'm2', 'outUnit' => 'hectare'], ['inUnit' => 'kW', 'outUnit' => 'kgCo2']]);
         return new JsonResponse($myObject);
     }
 }
