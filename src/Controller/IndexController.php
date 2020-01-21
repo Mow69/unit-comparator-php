@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use function App\Service\co2ToKw;
+use function App\Service\hectareToM2;
 use function App\Service\kwToCo2;
 use function App\Service\m2toHectare;
 
@@ -72,7 +73,7 @@ class IndexController extends AbstractController
                         $myObject->result = ["message" => "valueToConvert incorrect"];
                         return new JsonResponse($myObject, self::ERROR_CODE);
                     } else {
-                        $toReturn = m2toHectare($decode['valueToConvert']);
+                        $toReturn = hectareToM2($decode['valueToConvert']);
                     }
                 }
         } else {

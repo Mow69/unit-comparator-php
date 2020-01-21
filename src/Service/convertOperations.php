@@ -12,7 +12,7 @@ function kwToCo2($value)
     return $value * 0.09;
 }
 
-function HectareToM2($value)
+function hectareToM2($value)
 {
     return $value * 10000;
 }
