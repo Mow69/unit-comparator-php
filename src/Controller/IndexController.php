@@ -76,36 +76,56 @@ class IndexController extends AbstractController
                         $toReturn = hectareToM2($decode['valueToConvert']);
                     }
                 }
-        } else {
-            $myObject->result = ["message" => " sent inUnit or/and outUnit not found"];
+            } else {
+                $myObject->result = ["message" => " sent inUnit or/and outUnit not found"];
+                return new JsonResponse($myObject, self::ERROR_CODE);
+            }
+            if (isset($toReturn)) {
+                $myObject->result = ['convertedValue' => $toReturn];
+                return new JsonResponse($myObject);
+            }
+
             return new JsonResponse($myObject, self::ERROR_CODE);
         }
-        if (isset($toReturn)) {
-            $myObject->result = ['convertedValue' => $toReturn];
-            return new JsonResponse($myObject);
-        }
-
-        return new JsonResponse($myObject, self::ERROR_CODE);
     }
-}
 
-/**
- * @Route("/filterunits", name="filterunits", methods={"GET"})
- * UserStory 1 : m² to hectare
- * @return JsonResponse
- */
-public
-function filterunits()
-{
-    $myObject = new JSONToReturn([
-        ['inUnit' => 'm2', 'outUnit' => 'hectare'],
-        ['inUnit' => 'kW', 'outUnit' => 'kgCo2'],
-        ['inUnit' => 'hectare', 'outUnit' => 'm2'],
-        ['inUnit' => 'kgCo2', 'outUnit' => 'kW']
-    ]);
+    /**
+     * @Route("/filterunits", name="filterunits", methods={"GET"})
+     * UserStory 1 : m² to hectare
+     * @return JsonResponse
+     */
+    public
+    function filterunits()
+    {
+        $myObject = new JSONToReturn([
+            ['inUnit' => 'm2', 'outUnit' => 'ha'],
+            ['inUnit' => 'ha', 'outUnit' => 'm2'],
+            ['inUnit' => 'kW', 'outUnit' => 'kg CO2'],
+            ['inUnit' => 'kg CO2', 'outUnit' => 'kW']
+        ]);
 
-    return new JsonResponse($myObject);
-}
+        return new JsonResponse($myObject);
+    }
+
+    /**
+     * @Route("/unit", name="unit", methods={"GET"})
+     * UserStory 1 : m² to hectare
+     * @return void
+     */
+    public
+    function unit()
+    {
+        $fausseExtraction =[
+            ['unit' => 'm2', 'definition' => 'Un carré de 1m x 1m','source'=>'https://fr.wikipedia.org/wiki/M%C3%A8tre_carr%C3%A9'],
+            ['unit' => 'ha', 'definition' => 'Un carré de 100m x 100m','source'=>'https://fr.wikipedia.org/wiki/Hectare'],
+            ['unit' => 'kW', 'definition' => 'Unité de puissance, multiple du watt, et valant 1000 watts','source'=>'https://www.actu-environnement.com/ae/dictionnaire_environnement/definition/kilowatt_kw.php4'],
+            ['unit' => 'kg CO2', 'definition' => 'Quantité de gaz à effet de serre','source'=>'https://fr.wikipedia.org/wiki/%C3%89quivalent_CO2'],
+        ];
+
+        $myObject = new JSONToReturn($fausseExtraction);
+        return new JsonResponse($myObject);
+    }
+
 }
 
 
