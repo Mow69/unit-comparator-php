@@ -3,16 +3,12 @@
 namespace App\Controller;
 
 
-use App\Entity\Unite;
+use App\ClassFilterUnits;
 use App\JSONToReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use function App\Service\kwToCo2;
 use function App\Service\m2toHectare;
 
@@ -78,30 +74,6 @@ class IndexController extends AbstractController
     {
         $myObject = new JSONToReturn([['inUnit' => 'm2', 'outUnit' => 'hectare'], ['inUnit' => 'kW', 'outUnit' => 'kgCo2']]);
         return new JsonResponse($myObject);
-    }
-
-    /**
-     * @Route("/showunits", name="showunits")
-     */
-    public function showUnits()
-    {
-        $data = $this->getDoctrine()
-            ->getRepository(Unite::class)
-            ->findAll();
-
-        if (!$data) {
-            throw $this->createNotFoundException(
-                'No data found for Unite class'
-            );
-        }
-
-        $encoder = [new JsonEncoder()];
-        $normalizer = [new ObjectNormalizer()];
-        $serializer = new Serializer($normalizer, $encoder);
-
-        $jsonContent = $serializer->serialize($data, 'json');
-
-        return new Response($jsonContent);
     }
 }
 
