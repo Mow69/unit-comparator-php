@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 
-use App\ClassFilterUnits;
+use App\Entity\Unite;
 use App\JSONToReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -66,7 +66,7 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/filterunits", name="filterunits", methods={"POST"})
+     * @Route("/filterunits", name="filterunits", methods={"GET"})
      * UserStory 1 : m² to hectare
      * @return JsonResponse
      */
@@ -75,6 +75,32 @@ class IndexController extends AbstractController
         $myObject = new JSONToReturn([['inUnit' => 'm2', 'outUnit' => 'hectare'], ['inUnit' => 'kW', 'outUnit' => 'kgCo2']]);
         return new JsonResponse($myObject);
     }
+
+    /**
+     * UserStory 1 : m² to hectare
+     * @Route("/unit", name="unit", methods={"GET"})
+     */
+    public function showUnits()
+    {
+        $allData = $this
+            ->getDoctrine()
+            ->getRepository(Unite::class)
+            ->findAll();
+
+        if (!$allData) {
+            throw $this->createNotFoundException(
+                'No product found for id '
+            );
+        }
+        $reponse =array();
+        for ($i=0 ; $i<count($allData); $i++){
+            array_push($reponse, ['unit'=> $allData[$i]->getSymbole(), 'definition'=>$allData[$i]->getDefinition(), 'source'=>$allData[$i]->getSourceId()]);
+        }
+
+        $myObject = new JSONToReturn($reponse);
+        return new JsonResponse($myObject);
+    }
+
 }
 
 
