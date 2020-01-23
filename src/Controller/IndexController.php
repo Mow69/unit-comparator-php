@@ -32,7 +32,7 @@ class IndexController extends AbstractController
             $decode = json_decode($content, true);
             if (isset($decode['inUnit']) && isset($decode['outUnit'])) {
 
-                if ($decode['inUnit'] == 'm2' && $decode['outUnit'] == 'hectare') {
+                if ($decode['inUnit'] == 'm2' && $decode['outUnit'] == 'ha') {
 
                     if (!isset($decode ['valueToConvert']) ||
                         !is_numeric($decode ['valueToConvert']) ||
@@ -44,7 +44,7 @@ class IndexController extends AbstractController
                     }
                 }
 
-                if ($decode ['inUnit'] == 'kW' && $decode['outUnit'] == 'kgCo2') {
+                if ($decode ['inUnit'] == 'kW' && $decode['outUnit'] == 'kg CO2') {
 
                     if (!isset($decode ['valueToConvert']) ||
                         !is_numeric($decode ['valueToConvert']) ||
@@ -55,7 +55,7 @@ class IndexController extends AbstractController
                         $toReturn = kwToCo2($decode['valueToConvert']);
                     }
                 }
-                if ($decode ['inUnit'] == 'kgCo2' && $decode['outUnit'] == 'kW') {
+                if ($decode ['inUnit'] == 'kg CO2' && $decode['outUnit'] == 'kW') {
                     if (!isset($decode ['valueToConvert']) ||
                         !is_numeric($decode ['valueToConvert']) ||
                         $decode['valueToConvert'] < 0) {
@@ -66,7 +66,7 @@ class IndexController extends AbstractController
                     }
 
                 }
-                if ($decode ['inUnit'] == 'hectare' && $decode['outUnit'] == 'm2') {
+                if ($decode ['inUnit'] == 'ha' && $decode['outUnit'] == 'm2') {
                     if (!isset($decode ['valueToConvert']) ||
                         !is_numeric($decode ['valueToConvert']) ||
                         $decode['valueToConvert'] < 0) {
