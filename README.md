@@ -4,6 +4,10 @@
 - `composer install`
 - Pour lancer le serveur :  `php bin/console server:run`
 
+ # Accès BDD 
+ - créer un fichier .env.local à la racine du projet et remplacer les valeurs `user-login`, `password` et `database-name` avec les vraies valeurs:
+> DATABASE_URL=mysql://user-login:password@127.0.0.1:3306/database-name
+
 # User story 
 La descriptions des besoins est effectué via les Issues de ce repository GitHub
 
@@ -24,3 +28,4 @@ Nom des attibuts des requetes POST
 >
 >kwToKgCo2 : Convertion de Kw/h en Kg de Co2
 >
+
