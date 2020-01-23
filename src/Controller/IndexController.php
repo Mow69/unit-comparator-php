@@ -81,7 +81,7 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/showunits", name="showunits")
+     * @Route("/unit", name="unit")
      */
     public function showUnits()
     {
