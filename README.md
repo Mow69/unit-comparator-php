@@ -4,9 +4,19 @@
 - `composer install`
 - Pour lancer le serveur :  `php bin/console server:run`
 
- # Accès BDD 
+ # Accès BDD
+ - créer la BDD en local. 
  - créer un fichier .env.local à la racine du projet et remplacer les valeurs `user-login`, `password` et `database-name` avec les vraies valeurs:
 > DATABASE_URL=mysql://user-login:password@127.0.0.1:3306/database-name
+
+# Création des tables dans la BDD
+Pour créer les tables dans la BDD, faire :
+- `php bin/console make:migration`
+- `php bin/console doctrine:migrations:migrate`
+
+# Injection des données dans la BDD
+Pour mettre les données dans la BDD, faire :
+- `php bin/console doctrine:fixtures:load`
 
 # User story 
 La descriptions des besoins est effectué via les Issues de ce repository GitHub
