@@ -16,3 +16,6 @@
 ##PhpStorm
 .idea
 .idea/*
+
+##Migrations
+/src/Migrations/
