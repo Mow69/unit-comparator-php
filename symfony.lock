@@ -126,6 +126,15 @@
     "php": {
         "version": "7.4"
     },
+    "phpdocumentor/reflection-common": {
+        "version": "2.0.0"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "4.3.4"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "1.0.1"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -258,6 +267,9 @@
     "symfony/property-access": {
         "version": "v4.4.3"
     },
+    "symfony/property-info": {
+        "version": "v4.4.3"
+    },
     "symfony/routing": {
         "version": "4.2",
         "recipe": {
@@ -275,11 +287,30 @@
     "symfony/serializer": {
         "version": "v4.4.3"
     },
+    "symfony/serializer-pack": {
+        "version": "v1.0.2"
+    },
     "symfony/service-contracts": {
         "version": "v2.0.1"
     },
     "symfony/stopwatch": {
         "version": "v4.4.3"
+    },
+    "symfony/translation-contracts": {
+        "version": "v2.0.1"
+    },
+    "symfony/validator": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "d902da3e4952f18d3bf05aab29512eb61cabd869"
+        },
+        "files": [
+            "./config/packages/test/validator.yaml",
+            "./config/packages/validator.yaml"
+        ]
     },
     "symfony/var-dumper": {
         "version": "v4.4.2"
@@ -301,5 +332,8 @@
     },
     "webimpress/safe-writer": {
         "version": "2.0.0"
+    },
+    "webmozart/assert": {
+        "version": "1.6.0"
     }
 }
