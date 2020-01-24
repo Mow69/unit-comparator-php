@@ -94,7 +94,7 @@ class IndexController extends AbstractController
         }
         $reponse =array();
         for ($i=0 ; $i<count($allData); $i++){
-            array_push($reponse, ['unit'=> $allData[$i]->getSymbole(), 'definition'=>$allData[$i]->getDefinition(), 'source'=>$allData[$i]->getSourceId()]);
+            array_push($reponse, ['unit'=> $allData[$i]->getSymbole(), 'definition'=>$allData[$i]->getDefinition(), 'source'=>$allData[$i]->getSourceId()->getLien()]);
         }
 
         $myObject = new JSONToReturn($reponse);
