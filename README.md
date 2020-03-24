@@ -1,6 +1,7 @@
 # Pour utiliser ce projet: 
 
 - faites un `git clone` ou un download du projet
+- `composer dump autoload` (si nécéssaire)
 - `composer install`
 - Pour lancer le serveur :  `php bin/console server:run`
 
